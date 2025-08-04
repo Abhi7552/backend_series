@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend Series ",
+  "keywords": [
+    "Backend"
+  ],
+  "homepage": "https://github.com/Abhi7552/backend_series#readme",
+  "bugs": {
+    "url": "https://github.com/Abhi7552/backend_series/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhi7552/backend_series.git"
+  },
+  "license": "ISC",
+  "author": "Abhishek",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

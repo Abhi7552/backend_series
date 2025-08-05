@@ -11,12 +11,8 @@ app.use(cors({
 }))
 
 app.use(express.json({limit:"16kb"})) // for handling json data
-
 app.use(express.urlencoded({extended:true,limit:"16kb"})) // to decode url data
-
 app.use(express.static("public"))  // to access public folder
-
 app.use(cookieParser());  // to store and set cookies in server
-
 
 export {app};

@@ -15,4 +15,14 @@ app.use(express.urlencoded({extended:true,limit:"16kb"})) // to decode url data
 app.use(express.static("public"))  // to access public folder
 app.use(cookieParser());  // to store and set cookies in server
 
+
+//routes imports
+import userRouter from "./routes/user.route.js";
+
+// routes declaration
+
+app.use("/api/v1/users",userRouter);
+
+
+
 export default app;

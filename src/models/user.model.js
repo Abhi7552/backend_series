@@ -54,7 +54,7 @@ const userSchema = new Schema(
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();  // out if password is not modified
 
-    this.password = bcrypt.hash(this.password, 10); // which field and how many layers
+    this.password =await bcrypt.hash(this.password, 10); // which field and how many layers
     next();
 })
 

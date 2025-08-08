@@ -10,8 +10,8 @@ const registerUser = asyncHandler(async (req, res) => {
     // })
 
     // get user details from frontend
-    const { email, fullname, username, password } = req.body;
-    console.log("email:", email);
+    const { email, fullName, userName, password } = req.body;
+    // console.log("email:", email);
 
     //validation check -not empty , etc
 
@@ -19,13 +19,13 @@ const registerUser = asyncHandler(async (req, res) => {
     //     throw new apiErrorHandler(400,"Full name is required")
     // }  // can replicate to all checks
 
-    if ([fullname, email, username, password].some((field) => field?.trim() === "")) {
+    if ([fullName, email, userName, password].some((field) => field?.trim() === "")) {
         throw new apiErrorHandler(400, "All fields are required")
     }
 
     // user already exists ? : by username or email
-    const existedUser = User.findOne({
-        $or: [{ username }, { email }]
+    const existedUser = await User.findOne({
+        $or: [{ userName }, { email }]
     });
     if (existedUser) {
         throw new apiErrorHandler(409, "Username or email already exists");
@@ -35,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const avtarLocalPath = req.files?.avtar[0].path;
     const coverImageLocalPath = req.files?.coverImage[0].path;
     if (!avtarLocalPath) {
-        throw new apiErrorHandler(400, "Avtar file is required");
+        throw new apiErrorHandler(400, "Avtar file local path is required");
     }
 
     //upload them to cloudinary,avtar
@@ -49,12 +49,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // create user object - create entry in db
     const user = await User.create({
-        fullname,
+        fullName,
         avtar: avtarImage.url,
         coverImage: coverImage?.url || "",
         email,
         password,
-        username: username.toLowerCase()
+        userName: userName.toLowerCase()
     })
 
     //remove password and refresh token field from response

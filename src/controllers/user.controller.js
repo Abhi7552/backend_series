@@ -33,15 +33,22 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // check for image, check avtar
     const avtarLocalPath = req.files?.avtar[0].path;
-    const coverImageLocalPath = req.files?.coverImage[0].path;
     if (!avtarLocalPath) {
         throw new apiErrorHandler(400, "Avtar file local path is required");
     }
+    // const coverImageLocalPath = req.files?.coverImage[0].path;
+    let coverImageLocalPath;
 
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length>0){
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
+
+    
     //upload them to cloudinary,avtar
     const avtarImage = await uploadOnCloudinary(avtarLocalPath);
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
+    // console.log(avtarImage, coverImage);
+    
     if (!avtarImage) {
         throw new apiErrorHandler(400, "Avtar file is required");
     }
@@ -61,15 +68,15 @@ const registerUser = asyncHandler(async (req, res) => {
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
-    
+
     // check for user creation
     if (!createdUser) {
         throw new apiErrorHandler(500, "Error while registering the user account.")
     }
 
     // return response
-    return res.this.status(200).json(
-        new ApiResponse(200,createdUser,"User registered successfully.")
+    return res.status(200).json(
+        new ApiResponse(200, createdUser, "User registered successfully.")
     )
 })
 
